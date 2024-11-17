@@ -19,7 +19,7 @@ No installation required. Simply download `achievements.exe` and run it from the
 1. Ensure you have Python 3.9 or higher installed
 2. Install required packages:
 ```bash
-pip install curl_cffi beautifulsoup4
+pip install -r requirements.txt
 ```
 3. Download `achievements.py`
 
