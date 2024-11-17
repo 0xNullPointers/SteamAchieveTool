@@ -1,14 +1,19 @@
 @echo off
-python -c "import nuitka" 2>nul
+echo Checking dependencies...
+
+REM Check all dependencies in one go
+python -c "import bs4, curl_cffi, nuitka" 2>nul
 if %ERRORLEVEL% NEQ 0 (
-    echo Nuitka is not installed. Installing Nuitka...
-    pip install nuitka>=2.4.11
+    echo Installing dependencies...
+    pip install beautifulsoup4>=4.12.0 curl-cffi>=0.5.10 nuitka==2.4.11 >nul 2>&1
     if %ERRORLEVEL% NEQ 0 (
-        echo Failed to install Nuitka. Please try installing manually: pip install nuitka
+        echo Failed to install dependencies. Please try installing manually.
         pause
         exit /b 1
     )
-    echo Nuitka installed successfully!
+    echo Dependencies installed successfully!
+) else (
+    echo All dependencies already installed. Good to go!
 )
 
 echo Building achievements.exe...
