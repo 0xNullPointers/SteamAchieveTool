@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import queue
 import threading
@@ -363,9 +364,14 @@ class AchievementFetcherGUI:
     
     def generate_gse(self, app_id: str, use_steam: bool):
         app_index = get_steam_app_by_id(app_id)
-        game_name = app_index['name'] if app_index else None
+        # game_name = app_index['name'] if app_index else None
         
+        # game_dir = f"{game_name} ({app_id})"
+        # os.makedirs(game_dir, exist_ok=True)
+
+        game_name = re.sub(r'[<>:"/\\|?*]', '', app_index['name']) if app_index else None
         game_dir = f"{game_name} ({app_id})"
+    
         os.makedirs(game_dir, exist_ok=True)
 
         settings_dir = os.path.join(game_dir, "steam_settings")
