@@ -16,7 +16,7 @@ A Python-based GUI application for generating GSE (Goldberg Steam Emulator) conf
 ## Installation
 
 ### Using the Executable (.exe)
-No installation required. Simply download `GSE.Generator.rar` from the [releases](https://github.com/itsNileshHere/SteamAchieveTool/releases/latest) page, Extract it to a folder and run the `GSE_Generator.exe`.
+No installation required. Simply download `GSE.Generator.zip` from the [releases](https://github.com/itsNileshHere/SteamAchieveTool/releases/latest) page, Extract it to a folder and run the `GSE_Generator.exe`.
 
 ### Using Python Source
 1. Ensure Python 3.9 or higher installed
