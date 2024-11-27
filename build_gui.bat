@@ -4,23 +4,28 @@ echo.
 
 :: modules
 echo Compiling goldberg_gen module...
-python -m nuitka --module --lto=yes --disable-ccache --static-libpython=no --python-flag=no_docstrings --python-flag=no_asserts --nofollow-imports --remove-output --output-dir=dist goldberg_gen.py
+python -m nuitka --module --lto=yes --disable-ccache --static-libpython=no --python-flag=no_site --python-flag=no_docstrings --python-flag=no_asserts --remove-output --output-dir=dist goldberg_gen.py
 if %errorlevel% neq 0 goto error
 
 echo.
 echo Compiling achievements module...
-python -m nuitka --module --lto=yes --disable-ccache --static-libpython=no --python-flag=no_docstrings --python-flag=no_asserts --nofollow-imports --remove-output --output-dir=dist achievements.py
+python -m nuitka --module --lto=yes --disable-ccache --static-libpython=no --python-flag=no_site --python-flag=no_docstrings --python-flag=no_asserts --remove-output --output-dir=dist achievements.py
 if %errorlevel% neq 0 goto error
 
 echo.
 echo Compiling appID_finder module...
-python -m nuitka --module --lto=yes --disable-ccache --static-libpython=no --python-flag=no_docstrings --python-flag=no_asserts --nofollow-imports --remove-output --output-dir=dist appID_finder.py
+python -m nuitka --module --lto=yes --disable-ccache --static-libpython=no --python-flag=no_site --python-flag=no_docstrings --python-flag=no_asserts --remove-output --output-dir=dist appID_finder.py
+if %errorlevel% neq 0 goto error
+
+echo.
+echo Compiling dlc_gen module...
+python -m nuitka --module --lto=yes --disable-ccache --static-libpython=no --python-flag=no_site --python-flag=no_docstrings --python-flag=no_asserts --remove-output --output-dir=dist dlc_gen.py
 if %errorlevel% neq 0 goto error
 
 :: Main GUI
 echo.
 echo Compiling main GUI...
-python -m nuitka --standalone --onefile --windows-console-mode=disable --windows-icon-from-ico=icon.ico --lto=yes --follow-imports --remove-output --output-dir=dist --jobs=6 --disable-ccache --include-data-file=icon.ico=icon.ico --static-libpython=no --python-flag=no_docstrings --python-flag=no_asserts --enable-plugin=tk-inter --include-module=goldberg_gen --include-module=achievements --include-module=appID_finder GSE_Generator.py
+python -m nuitka --standalone --onefile --windows-console-mode=disable --windows-icon-from-ico=icon.ico --lto=yes --follow-imports --remove-output --output-dir=dist --jobs=6 --disable-ccache --include-data-file=icon.ico=icon.ico --static-libpython=no --python-flag=no_docstrings --python-flag=no_asserts --enable-plugin=tk-inter --include-module=goldberg_gen --include-module=achievements --include-module=appID_finder --include-module=dlc_gen GSE_Generator.py
 if %errorlevel% neq 0 goto error
 
 echo.
