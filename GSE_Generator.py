@@ -7,6 +7,7 @@ import tkinter as tk
 from tkinter import ttk
 from appID_finder import get_steam_app_by_id, get_steam_app_by_name
 from achievements import fetch_from_steamcommunity, fetch_from_steamdb
+from dlc_gen import fetch_dlc, create_dlc_config
 
 def get_resource_path(filename):
     if hasattr(sys, '_MEIPASS'):
@@ -365,13 +366,9 @@ class AchievementFetcherGUI:
     def generate_gse(self, app_id: str, use_steam: bool):
         app_index = get_steam_app_by_id(app_id)
         # game_name = app_index['name'] if app_index else None
-        
-        # game_dir = f"{game_name} ({app_id})"
-        # os.makedirs(game_dir, exist_ok=True)
-
         game_name = re.sub(r'[<>:"/\\|?*]', '', app_index['name']) if app_index else None
+
         game_dir = f"{game_name} ({app_id})"
-    
         os.makedirs(game_dir, exist_ok=True)
 
         settings_dir = os.path.join(game_dir, "steam_settings")
@@ -384,9 +381,14 @@ class AchievementFetcherGUI:
                 from goldberg_gen import generate_emu
                 if not generate_emu(game_dir, app_id, self.disable_overlay.get()):
                     raise Exception("Failed to generate Goldberg emu files")
+                
+                # Generate DLCs
+                self.write_output("Generating DLCs...")
+                dlc_details = fetch_dlc(app_id)
+                create_dlc_config(game_dir, dlc_details)
 
             # Generate achievements
-            self.write_output("Generating achievements...")
+            self.write_output("Generating Achievements...")
             original_cwd = os.getcwd()
             try:
                 os.chdir(settings_dir)
@@ -412,7 +414,8 @@ class AchievementFetcherGUI:
             
             self.create_user_config(settings_dir)
             
-            self.write_output("Done generating GSE!")
+            self.write_output("Files generated successfully!")
+            self.write_output(f"Location: {(game_dir)}")
             self.root.after(0, lambda: self.set_status("GSE generated successfully"))
                 
         except Exception as e:
